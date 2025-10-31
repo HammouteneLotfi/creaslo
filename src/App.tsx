@@ -1,19 +1,22 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Globe, Instagram, Github, Linkedin } from 'lucide-react';
+import { Menu, X, Globe, Instagram, Github, Linkedin, ArrowUpRight } from 'lucide-react';
 
 interface Project {
   id: number;
   title: string;
   category: string;
+  year: string;
   image: string;
   description: string;
-  color: string;
+  tags: string[];
 }
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -32,77 +35,102 @@ function App() {
   const projects: Project[] = [
     {
       id: 1,
-      title: 'sharlee',
-      category: 'Branding',
+      title: 'Sharlee',
+      category: 'Branding & Web Design',
+      year: '2024',
       image: 'https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      description: 'Modern digital branding',
-      color: 'from-blue-400 to-green-300'
+      description: 'Création d\'une identité visuelle moderne et d\'un site web portfolio pour un designer créatif.',
+      tags: ['Branding', 'Web Design', 'Development']
     },
     {
       id: 2,
-      title: 'act responsable',
+      title: 'Act Responsable',
       category: 'Développement Web',
+      year: '2024',
       image: 'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      description: 'Interface design system',
-      color: 'from-red-500 to-pink-300'
+      description: 'Plateforme web responsive pour promouvoir les actions éco-responsables en entreprise.',
+      tags: ['Web Development', 'UX/UI', 'Responsive']
     },
     {
       id: 3,
-      title: 'dua lipa',
-      category: 'Portrait',
+      title: 'Dua Lipa',
+      category: 'Portrait & Direction Artistique',
+      year: '2023',
       image: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      description: 'Full-stack application',
-      color: 'from-purple-400 to-blue-300'
+      description: 'Série de portraits artistiques avec direction créative pour campagne promotionnelle.',
+      tags: ['Photography', 'Art Direction', 'Portrait']
     },
     {
       id: 4,
-      title: 'cocolyze',
+      title: 'Cocolyze',
       category: 'Design UX/UI',
+      year: '2024',
       image: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      description: 'Brand refresh project',
-      color: 'from-teal-400 to-cyan-300'
+      description: 'Interface utilisateur intuitive pour une plateforme d\'analyse SEO et marketing digital.',
+      tags: ['UX/UI', 'SaaS', 'Dashboard']
     },
     {
       id: 5,
-      title: 'les indécis',
+      title: 'Les Indécis',
       category: 'Branding',
+      year: '2023',
       image: 'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      description: 'Online shopping experience',
-      color: 'from-orange-400 to-yellow-300'
+      description: 'Identité visuelle complète pour un collectif artistique parisien émergent.',
+      tags: ['Branding', 'Logo Design', 'Print']
     },
     {
       id: 6,
-      title: 'le jeu de l\'oie',
+      title: 'Le Jeu de l\'Oie',
       category: 'Game Design',
+      year: '2023',
       image: 'https://images.pexels.com/photos/163036/mario-luigi-yoschi-figures-163036.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      description: 'iOS & Android application',
-      color: 'from-green-400 to-emerald-300'
+      description: 'Réinvention digitale du jeu classique avec design moderne et animations interactives.',
+      tags: ['Game Design', 'Animation', 'Interactive']
     },
     {
       id: 7,
-      title: 'l\'équipe explore',
+      title: 'L\'Équipe Explore',
       category: 'Illustration',
+      year: '2024',
       image: 'https://images.pexels.com/photos/1226398/pexels-photo-1226398.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      description: 'Magazine layout design',
-      color: 'from-blue-500 to-indigo-300'
+      description: 'Série d\'illustrations pour le magazine sportif, alliant sport et aventure.',
+      tags: ['Illustration', 'Editorial', 'Digital Art']
     },
     {
       id: 8,
-      title: 'silhouette',
-      category: 'Portrait',
+      title: 'Silhouette',
+      category: 'Portrait Photography',
+      year: '2023',
       image: 'https://images.pexels.com/photos/1689731/pexels-photo-1689731.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      description: '3D animated content',
-      color: 'from-slate-500 to-gray-300'
+      description: 'Projet photographique explorant les contrastes et les formes à travers le noir et blanc.',
+      tags: ['Photography', 'Black & White', 'Art']
     },
     {
       id: 9,
-      title: 'cosmetic brand',
-      category: 'Branding',
+      title: 'Cosmetic Brand',
+      category: 'Branding & Packaging',
+      year: '2024',
       image: 'https://images.pexels.com/photos/3373736/pexels-photo-3373736.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      description: 'Personal portfolio website',
-      color: 'from-pink-400 to-rose-300'
+      description: 'Création d\'une marque de cosmétiques naturels avec packaging éco-responsable.',
+      tags: ['Branding', 'Packaging', 'Sustainability']
     }
   ];
+
+  const handleProjectClick = (project: Project) => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setSelectedProject(project);
+      setIsTransitioning(false);
+    }, 800);
+  };
+
+  const handleCloseProject = () => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setSelectedProject(null);
+      setIsTransitioning(false);
+    }, 800);
+  };
 
   if (isLoading) {
     return (
@@ -121,6 +149,87 @@ function App() {
                 }}
               />
             ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (selectedProject) {
+    return (
+      <div className="min-h-screen bg-black text-white overflow-x-hidden">
+        <div
+          className={`fixed inset-0 bg-black z-50 transition-opacity duration-800 ${
+            isTransitioning ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          }`}
+        />
+
+        <div className="fixed top-8 right-8 z-40">
+          <button
+            onClick={handleCloseProject}
+            className="w-12 h-12 border border-white/30 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300"
+          >
+            <X size={24} />
+          </button>
+        </div>
+
+        <div className="min-h-screen px-8 md:px-16 py-20 md:py-32">
+          <div className="max-w-6xl mx-auto">
+            <div className="mb-12">
+              <span className="pixel-font text-sm text-gray-400 mb-4 block">
+                {selectedProject.year} — {selectedProject.category}
+              </span>
+              <h1 className="pixel-font text-5xl md:text-7xl lg:text-9xl mb-8">
+                {selectedProject.title}
+              </h1>
+            </div>
+
+            <div className="aspect-video w-full mb-12 overflow-hidden">
+              <img
+                src={selectedProject.image}
+                alt={selectedProject.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-12 mb-16">
+              <div>
+                <h3 className="pixel-font text-xl mb-4">DESCRIPTION</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  {selectedProject.description}
+                </p>
+              </div>
+              <div>
+                <h3 className="pixel-font text-xl mb-4">TAGS</h3>
+                <div className="flex flex-wrap gap-2">
+                  {selectedProject.tags.map((tag, index) => (
+                    <span
+                      key={index}
+                      className="border border-white/30 px-4 py-2 text-sm pixel-font"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="aspect-square bg-gray-900">
+                <img
+                  src={selectedProject.image}
+                  alt="Detail 1"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="aspect-square bg-gray-900">
+                <img
+                  src={selectedProject.image}
+                  alt="Detail 2"
+                  className="w-full h-full object-cover opacity-80"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -182,9 +291,8 @@ function App() {
         <div className="h-full flex items-center justify-center">
           <div className="text-center space-y-8">
             {[
-              { label: 'WORK', href: '#work' },
+              { label: 'Projets', href: '#work' },
               { label: 'ABOUT', href: '#about' },
-              { label: 'SERVICES', href: '#services' },
               { label: 'CONTACT', href: '#contact' }
             ].map((item, i) => (
               <a
@@ -232,78 +340,82 @@ function App() {
         </section>
 
         <section id="work" className="min-h-screen flex flex-col lg:flex-row">
-          <div className="w-full lg:w-1/2 lg:sticky lg:top-0 lg:h-screen flex items-center justify-center p-8 lg:p-16 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br opacity-60 transition-all duration-700"
-              style={{
-                background: hoveredProject
-                  ? `linear-gradient(135deg, ${projects.find(p => p.id === hoveredProject)?.color.split(' ')[0].replace('from-', '')} 0%, ${projects.find(p => p.id === hoveredProject)?.color.split(' ')[1].replace('to-', '')} 100%)`
-                  : 'linear-gradient(135deg, rgb(100, 116, 139) 0%, rgb(71, 85, 105) 100%)'
-              }}
-            />
-            {projects.map((project) => (
-              <div
-                key={project.id}
-                className={`absolute inset-0 transition-opacity duration-700 ${
-                  hoveredProject === project.id ? 'opacity-100' : 'opacity-0'
-                }`}
-              >
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))}
+          <div className="w-full lg:w-1/2 lg:sticky lg:top-0 lg:h-screen flex items-center justify-center p-8 lg:p-16 relative overflow-hidden bg-gradient-to-br from-gray-900 to-black">
+            <div className="absolute inset-0 transition-opacity duration-700">
+              {projects.map((project) => (
+                <div
+                  key={project.id}
+                  className={`absolute inset-0 transition-opacity duration-700 ${
+                    hoveredProject === project.id ? 'opacity-100' : 'opacity-0'
+                  }`}
+                >
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/30" />
+                </div>
+              ))}
+            </div>
+
             {!hoveredProject && (
               <div className="relative z-10 text-center">
-                <h2 className="text-6xl lg:text-8xl font-bold text-white mb-4 tracking-tight">
+                <h2 className="text-6xl lg:text-8xl font-bold text-white mb-4 tracking-tight pixel-font">
                   PROJETS
                 </h2>
-                <p className="text-2xl text-white/80">9</p>
+                <p className="text-3xl text-white/80 pixel-font">9</p>
               </div>
             )}
           </div>
 
-          <div className="w-full lg:w-1/2 bg-gradient-to-br from-slate-50 to-blue-50 px-8 lg:px-16 py-20">
-            <div className="max-w-2xl">
-              <div className="mb-12">
-                <h2 className="text-5xl lg:text-7xl font-bold text-slate-700 mb-4 tracking-tight">
+          <div className="w-full lg:w-1/2 bg-white text-black px-8 lg:px-16 py-20 overflow-y-auto lg:h-screen">
+            <div className="max-w-2xl mx-auto">
+              <div className="mb-16">
+                <h2 className="text-5xl lg:text-6xl font-bold mb-4 tracking-tight pixel-font text-black">
                   PROJETS
                 </h2>
-                <p className="text-2xl text-slate-500">9</p>
+                <p className="text-2xl text-gray-600 pixel-font">SÉLECTION — 9</p>
               </div>
 
               <div className="space-y-0">
                 {projects.map((project, index) => (
-                  <a
+                  <div
                     key={project.id}
-                    href="#"
-                    className="group block py-6 border-b border-slate-300 hover:border-slate-500 transition-all duration-300"
+                    onClick={() => handleProjectClick(project)}
+                    className="group cursor-pointer py-8 border-b border-gray-300 hover:border-black transition-all duration-300"
                     onMouseEnter={() => setHoveredProject(project.id)}
                     onMouseLeave={() => setHoveredProject(null)}
                     style={{
-                      animation: `fadeInUp 0.4s ease-out ${index * 0.05}s both`
+                      animation: `fadeInUp 0.5s ease-out ${index * 0.05}s both`
                     }}
                   >
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-start justify-between gap-8">
                       <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                          <span className="text-2xl group-hover:translate-x-2 transition-transform duration-300">
-                            →
+                        <div className="flex items-center gap-4 mb-3">
+                          <span className="text-sm text-gray-500 pixel-font min-w-[60px]">
+                            {project.year}
                           </span>
-                          <h3 className="text-2xl lg:text-3xl font-normal text-slate-800 group-hover:text-slate-900 transition-colors">
+                          <h3 className="text-3xl lg:text-4xl font-normal group-hover:translate-x-2 transition-transform duration-300">
                             {project.title}
                           </h3>
                         </div>
-                      </div>
-                      <div className="text-right ml-8">
-                        <p className="text-base lg:text-lg text-slate-500 group-hover:text-slate-700 transition-colors">
+                        <p className="text-base text-gray-600 group-hover:text-black transition-colors pl-[76px]">
                           {project.category}
                         </p>
                       </div>
+                      <div className="flex-shrink-0 w-8 h-8 border border-gray-400 group-hover:border-black flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-300">
+                        <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      </div>
                     </div>
-                  </a>
+                  </div>
                 ))}
+              </div>
+
+              <div className="mt-16 pt-8 border-t border-gray-300">
+                <p className="text-gray-600 text-sm">
+                  © 2025 CREASLO — Tous droits réservés
+                </p>
               </div>
             </div>
           </div>
@@ -351,20 +463,6 @@ function App() {
                   GITHUB →
                 </a>
               </div>
-            </div>
-
-            <div className="mt-12 md:mt-20 border-2 border-white p-6 md:p-8 inline-block">
-              <div className="grid grid-cols-8 gap-1 w-32 h-32 md:w-40 md:h-40">
-                {Array.from({ length: 64 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className={`${
-                      Math.random() > 0.5 ? 'bg-white' : 'bg-transparent'
-                    }`}
-                  />
-                ))}
-              </div>
-              <p className="pixel-font text-xs mt-4 text-center">SCAN HERE !</p>
             </div>
           </div>
         </section>
