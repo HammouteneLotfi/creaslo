@@ -155,6 +155,7 @@ function App() {
     );
   }
 
+ 
   if (selectedProject) {
     return (
       <div className="min-h-screen bg-black text-white overflow-x-hidden">
@@ -470,7 +471,7 @@ function App() {
         <footer className="border-t border-white/10 px-4 md:px-8 py-8 md:py-12">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 pixel-font text-xs md:text-sm text-gray-500">
             <p>© 2025 CREASLO - AGENCE CREATIVE</p>
-            <p>MADE WITH ♥ IN FRANCE</p>
+            <p>MADE WITH ♥</p>
           </div>
         </footer>
       </main>
