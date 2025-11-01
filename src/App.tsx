@@ -1,3 +1,7 @@
+
+// ============================================
+// App.tsx
+// ============================================
 import { useState, useEffect } from 'react';
 import { Menu, X, Globe, Instagram, Github, Linkedin, ArrowUpRight } from 'lucide-react';
 
@@ -19,6 +23,90 @@ function App() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
 
+  const projects: Project[] = [
+    {
+      id: 1,
+      title: 'Sharlee',
+      category: 'Branding & Web Design',
+      year: '2024',
+      image: 'https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      description: 'Création d\'une identité visuelle moderne pour un designer créatif. Le projet comprend la refonte complète du site portfolio avec une attention particulière portée à l\'expérience utilisateur et à la mise en valeur des créations.',
+      tags: ['Branding', 'Web Design', 'Development', 'UX/UI']
+    },
+    {
+      id: 2,
+      title: 'Act Responsable',
+      category: 'Développement Web',
+      year: '2024',
+      image: 'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      description: 'Association identifiant et regroupant les meilleures publicités engagées à travers le monde afin de sensibiliser aux grands enjeux (solidarité, environnement, droits de l\'Homme et éducation). Plateforme web responsive avec +35 collections, +150 expositions, et +25 000 publicités référencées.',
+      tags: ['Web Development', 'UX/UI', 'Responsive', 'Database']
+    },
+    {
+      id: 3,
+      title: 'Dua Lipa',
+      category: 'Portrait & Direction Artistique',
+      year: '2023',
+      image: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      description: 'Série de portraits artistiques avec direction créative pour campagne promotionnelle. Un travail sur l\'esthétique et l\'émotion à travers des jeux de lumière et de composition.',
+      tags: ['Photography', 'Art Direction', 'Portrait', 'Creative']
+    },
+    {
+      id: 4,
+      title: 'Cocolyze',
+      category: 'Design UX/UI',
+      year: '2024',
+      image: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      description: 'Interface utilisateur intuitive pour une plateforme d\'analyse SEO et marketing digital. Dashboard complet avec visualisation de données en temps réel et outils d\'optimisation pour améliorer le référencement naturel.',
+      tags: ['UX/UI', 'SaaS', 'Dashboard', 'Analytics']
+    },
+    {
+      id: 5,
+      title: 'Les Indécis',
+      category: 'Branding',
+      year: '2023',
+      image: 'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      description: 'Identité visuelle complète pour un collectif artistique parisien émergent. Création du logo, charte graphique, supports de communication et déclinaisons print et digital.',
+      tags: ['Branding', 'Logo Design', 'Print', 'Identity']
+    },
+    {
+      id: 6,
+      title: 'Le Jeu de l\'Oie',
+      category: 'Game Design',
+      year: '2023',
+      image: 'https://images.pexels.com/photos/163036/mario-luigi-yoschi-figures-163036.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      description: 'Réinvention digitale du jeu classique avec design moderne et animations interactives. Une expérience ludique qui mêle tradition et technologie avec des mécaniques de jeu repensées.',
+      tags: ['Game Design', 'Animation', 'Interactive', 'Web']
+    },
+    {
+      id: 7,
+      title: 'L\'Équipe Explore',
+      category: 'Illustration',
+      year: '2024',
+      image: 'https://images.pexels.com/photos/1226398/pexels-photo-1226398.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      description: 'Série d\'illustrations pour le magazine sportif, alliant sport et aventure. Un travail éditorial qui capture l\'esprit de l\'exploration et de la performance athlétique.',
+      tags: ['Illustration', 'Editorial', 'Digital Art', 'Sport']
+    },
+    {
+      id: 8,
+      title: 'Silhouette',
+      category: 'Portrait Photography',
+      year: '2023',
+      image: 'https://images.pexels.com/photos/1689731/pexels-photo-1689731.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      description: 'Projet photographique explorant les contrastes et les formes à travers le noir et blanc. Une étude sur la lumière et l\'ombre qui révèle l\'essence des sujets photographiés.',
+      tags: ['Photography', 'Black & White', 'Art', 'Portrait']
+    },
+    {
+      id: 9,
+      title: 'Cosmetic Brand',
+      category: 'Branding & Packaging',
+      year: '2024',
+      image: 'https://images.pexels.com/photos/3373736/pexels-photo-3373736.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      description: 'Création d\'une marque de cosmétiques naturels avec packaging éco-responsable. Un design qui reflète les valeurs écologiques de la marque tout en séduisant une clientèle moderne et exigeante.',
+      tags: ['Branding', 'Packaging', 'Sustainability', 'Eco-Design']
+    }
+  ];
+
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 2000);
     return () => clearTimeout(timer);
@@ -32,103 +120,28 @@ function App() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  const projects: Project[] = [
-    {
-      id: 1,
-      title: 'Sharlee',
-      category: 'Branding & Web Design',
-      year: '2024',
-      image: 'https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      description: 'Création d\'une identité visuelle moderne et d\'un site web portfolio pour un designer créatif.',
-      tags: ['Branding', 'Web Design', 'Development']
-    },
-    {
-      id: 2,
-      title: 'Act Responsable',
-      category: 'Développement Web',
-      year: '2024',
-      image: 'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      description: 'Plateforme web responsive pour promouvoir les actions éco-responsables en entreprise.',
-      tags: ['Web Development', 'UX/UI', 'Responsive']
-    },
-    {
-      id: 3,
-      title: 'Dua Lipa',
-      category: 'Portrait & Direction Artistique',
-      year: '2023',
-      image: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      description: 'Série de portraits artistiques avec direction créative pour campagne promotionnelle.',
-      tags: ['Photography', 'Art Direction', 'Portrait']
-    },
-    {
-      id: 4,
-      title: 'Cocolyze',
-      category: 'Design UX/UI',
-      year: '2024',
-      image: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      description: 'Interface utilisateur intuitive pour une plateforme d\'analyse SEO et marketing digital.',
-      tags: ['UX/UI', 'SaaS', 'Dashboard']
-    },
-    {
-      id: 5,
-      title: 'Les Indécis',
-      category: 'Branding',
-      year: '2023',
-      image: 'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      description: 'Identité visuelle complète pour un collectif artistique parisien émergent.',
-      tags: ['Branding', 'Logo Design', 'Print']
-    },
-    {
-      id: 6,
-      title: 'Le Jeu de l\'Oie',
-      category: 'Game Design',
-      year: '2023',
-      image: 'https://images.pexels.com/photos/163036/mario-luigi-yoschi-figures-163036.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      description: 'Réinvention digitale du jeu classique avec design moderne et animations interactives.',
-      tags: ['Game Design', 'Animation', 'Interactive']
-    },
-    {
-      id: 7,
-      title: 'L\'Équipe Explore',
-      category: 'Illustration',
-      year: '2024',
-      image: 'https://images.pexels.com/photos/1226398/pexels-photo-1226398.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      description: 'Série d\'illustrations pour le magazine sportif, alliant sport et aventure.',
-      tags: ['Illustration', 'Editorial', 'Digital Art']
-    },
-    {
-      id: 8,
-      title: 'Silhouette',
-      category: 'Portrait Photography',
-      year: '2023',
-      image: 'https://images.pexels.com/photos/1689731/pexels-photo-1689731.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      description: 'Projet photographique explorant les contrastes et les formes à travers le noir et blanc.',
-      tags: ['Photography', 'Black & White', 'Art']
-    },
-    {
-      id: 9,
-      title: 'Cosmetic Brand',
-      category: 'Branding & Packaging',
-      year: '2024',
-      image: 'https://images.pexels.com/photos/3373736/pexels-photo-3373736.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      description: 'Création d\'une marque de cosmétiques naturels avec packaging éco-responsable.',
-      tags: ['Branding', 'Packaging', 'Sustainability']
-    }
-  ];
-
   const handleProjectClick = (project: Project) => {
     setIsTransitioning(true);
     setTimeout(() => {
       setSelectedProject(project);
+      window.scrollTo(0, 0);
       setIsTransitioning(false);
     }, 800);
   };
 
   const handleCloseProject = () => {
     setIsTransitioning(true);
+    window.scrollTo(0, 0);
     setTimeout(() => {
       setSelectedProject(null);
       setIsTransitioning(false);
+      // Scroll vers la section projets après la transition
+      setTimeout(() => {
+        const workSection = document.getElementById('work');
+        if (workSection) {
+          workSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
     }, 800);
   };
 
@@ -157,7 +170,23 @@ function App() {
 
   if (selectedProject) {
     return (
-      <div className="min-h-screen bg-black text-white overflow-x-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white overflow-x-hidden fixed inset-0">
+        <style>{`
+          @keyframes projectEnter {
+            0% {
+              opacity: 0;
+              transform: scale(0.95) translateY(20px);
+            }
+            100% {
+              opacity: 1;
+              transform: scale(1) translateY(0);
+            }
+          }
+          .project-enter {
+            animation: projectEnter 0.6s ease-out forwards;
+          }
+        `}</style>
+
         <div
           className="custom-cursor pointer-events-none fixed w-4 h-4 bg-white mix-blend-difference rounded-full z-50 transition-transform duration-100"
           style={{
@@ -168,82 +197,184 @@ function App() {
         />
 
         <div
-          className={`fixed inset-0 bg-black z-50 transition-opacity duration-800 ${
+          className={`fixed inset-0 bg-black z-[100] transition-opacity duration-800 ${
             isTransitioning ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
         />
 
-        <div className="fixed top-8 right-8 z-40">
+        <div className="fixed top-8 right-8 z-[70]">
           <button
             onClick={handleCloseProject}
-            className="w-12 h-12 border border-white/30 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300"
+            className="w-12 h-12 border border-white/30 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300 backdrop-blur-sm bg-black/30"
           >
             <X size={24} />
           </button>
         </div>
 
-        <div className="min-h-screen px-8 md:px-16 py-20 md:py-32">
-          <div className="max-w-6xl mx-auto">
-            <div className="mb-12">
-              <span className="pixel-font text-sm text-gray-400 mb-4 block">
-                {selectedProject.year} — {selectedProject.category}
-              </span>
-              <h1 className="pixel-font text-5xl md:text-7xl lg:text-9xl mb-8">
+        <div className={`min-h-screen px-8 md:px-16 lg:px-24 py-20 md:py-32 overflow-y-auto ${!isTransitioning ? 'project-enter' : ''}`}>
+          <div className="max-w-7xl mx-auto">
+            {/* Header Section */}
+            <div className="mb-16">
+              <div className="flex items-center gap-4 mb-6">
+                <span className="pixel-font text-sm text-gray-400 uppercase tracking-wider">
+                  {selectedProject.category}
+                </span>
+                <span className="text-gray-600">•</span>
+                <span className="pixel-font text-sm text-gray-400 uppercase tracking-wider">
+                  {selectedProject.year}
+                </span>
+              </div>
+              <h1 className="pixel-font text-5xl md:text-7xl lg:text-8xl xl:text-9xl mb-8 leading-tight">
                 {selectedProject.title}
               </h1>
+              <div className="w-24 h-1 bg-white/20" />
             </div>
 
-            <div className="aspect-video w-full mb-12 overflow-hidden">
-              <img
-                src={selectedProject.image}
-                alt={selectedProject.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-12 mb-16">
-              <div>
-                <h3 className="pixel-font text-xl mb-4">DESCRIPTION</h3>
-                <p className="text-gray-300 leading-relaxed">
-                  {selectedProject.description}
-                </p>
+            {/* Main Image Section */}
+            <div className="mb-20">
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-gray-900/50 backdrop-blur-sm border border-white/5">
+                <img
+                  src={selectedProject.image}
+                  alt={selectedProject.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
               </div>
-              <div>
-                <h3 className="pixel-font text-xl mb-4">TAGS</h3>
-                <div className="flex flex-wrap gap-2">
-                  {selectedProject.tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="border border-white/30 px-4 py-2 text-sm pixel-font"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+            </div>
+
+            {/* Info Grid */}
+            <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 mb-24">
+              <div className="lg:col-span-7">
+                <h3 className="pixel-font text-xl md:text-2xl mb-6 text-white/90">
+                  À PROPOS DU PROJET
+                </h3>
+                <div className="space-y-4">
+                  <p className="text-gray-300 text-lg leading-relaxed">
+                    {selectedProject.description}
+                  </p>
+                  <p className="text-gray-400 text-base leading-relaxed">
+                    Ce projet représente une collaboration étroite avec le client pour créer une solution sur mesure qui répond parfaitement à ses besoins spécifiques et aux attentes de son audience.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="lg:col-span-5">
+                <div className="sticky top-8 space-y-8">
+                  {/* Tags */}
+                  <div>
+                    <h3 className="pixel-font text-xl md:text-2xl mb-4 text-white/90">
+                      COMPÉTENCES
+                    </h3>
+                    <div className="flex flex-wrap gap-3">
+                      {selectedProject.tags.map((tag, index) => (
+                        <span
+                          key={index}
+                          className="border border-white/20 px-5 py-2.5 text-sm pixel-font hover:bg-white hover:text-black transition-all duration-300 cursor-default"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Project Details */}
+                  <div className="border-t border-white/10 pt-8">
+                    <h3 className="pixel-font text-xl md:text-2xl mb-6 text-white/90">
+                      DÉTAILS
+                    </h3>
+                    <div className="space-y-4">
+                      <div>
+                        <div className="text-sm text-gray-500 pixel-font mb-1">CATÉGORIE</div>
+                        <div className="text-gray-300">{selectedProject.category}</div>
+                      </div>
+                      <div>
+                        <div className="text-sm text-gray-500 pixel-font mb-1">ANNÉE</div>
+                        <div className="text-gray-300">{selectedProject.year}</div>
+                      </div>
+                      <div>
+                        <div className="text-sm text-gray-500 pixel-font mb-1">CLIENT</div>
+                        <div className="text-gray-300">{selectedProject.title}</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="space-y-8">
-              <div className="w-full aspect-video bg-gray-900">
-                <img
-                  src={selectedProject.image}
-                  alt="Detail 1"
-                  className="w-full h-full object-cover"
-                />
+            {/* Mockup Section - Inspired by ACT Responsable */}
+            <div className="mb-24">
+              <h3 className="pixel-font text-2xl md:text-3xl mb-12 text-center">
+                APERÇU DU SITE
+              </h3>
+              <div className="grid gap-8">
+                {/* Desktop View */}
+                <div className="relative bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-8 rounded-lg border border-white/5 backdrop-blur-sm">
+                  <div className="absolute top-4 left-4 pixel-font text-xs text-gray-500">
+                    PAGE D'ACCUEIL
+                  </div>
+                  <div className="aspect-video w-full bg-gray-900 border border-white/10">
+                    <img
+                      src={selectedProject.image}
+                      alt="Desktop view"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+
+                {/* Mobile & Tablet Grid */}
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div className="relative bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-8 rounded-lg border border-white/5 backdrop-blur-sm">
+                    <div className="absolute top-4 left-4 pixel-font text-xs text-gray-500">
+                      PAGE EXPOSITIONS
+                    </div>
+                    <div className="aspect-[4/3] w-full bg-gray-900 border border-white/10">
+                      <img
+                        src={selectedProject.image}
+                        alt="Section 2"
+                        className="w-full h-full object-cover opacity-90"
+                      />
+                    </div>
+                  </div>
+                  <div className="relative bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-8 rounded-lg border border-white/5 backdrop-blur-sm">
+                    <div className="absolute top-4 left-4 pixel-font text-xs text-gray-500">
+                      PAGE À PROPOS
+                    </div>
+                    <div className="aspect-[4/3] w-full bg-gray-900 border border-white/10">
+                      <img
+                        src={selectedProject.image}
+                        alt="Section 3"
+                        className="w-full h-full object-cover opacity-85"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Mobile View */}
+                <div className="relative bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-8 rounded-lg border border-white/5 backdrop-blur-sm">
+                  <div className="absolute top-4 left-4 flex items-center gap-3">
+                    <span className="pixel-font text-xs text-gray-500">MOBILE</span>
+                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                  </div>
+                  <div className="max-w-sm mx-auto aspect-[9/19] bg-gray-900 border border-white/10 rounded-lg overflow-hidden">
+                    <img
+                      src={selectedProject.image}
+                      alt="Mobile view"
+                      className="w-full h-full object-cover opacity-80"
+                    />
+                  </div>
+                </div>
               </div>
-              <div className="w-full aspect-video bg-gray-900">
-                <img
-                  src={selectedProject.image}
-                  alt="Detail 2"
-                  className="w-full h-full object-cover opacity-80"
-                />
-              </div>
-              <div className="w-full aspect-video bg-gray-900">
-                <img
-                  src={selectedProject.image}
-                  alt="Detail 3"
-                  className="w-full h-full object-cover opacity-90"
-                />
+            </div>
+
+            {/* Navigation to other projects */}
+            <div className="border-t border-white/10 pt-12">
+              <div className="text-center">
+                <button
+                  onClick={handleCloseProject}
+                  className="pixel-font text-lg border border-white/30 px-8 py-4 hover:bg-white hover:text-black transition-all duration-300"
+                >
+                  RETOUR AUX PROJETS
+                </button>
               </div>
             </div>
           </div>
@@ -272,13 +403,34 @@ function App() {
         </button>
 
         <div className="flex-1 hidden md:flex flex-col justify-center gap-8">
-          <a href="#work" className="hover:scale-110 transition-transform pixel-font text-xs writing-vertical">
+          <a 
+            href="#work" 
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="hover:scale-110 transition-transform pixel-font text-xs writing-vertical"
+          >
             WORK
           </a>
-          <a href="#about" className="hover:scale-110 transition-transform pixel-font text-xs writing-vertical">
+          <a 
+            href="#about" 
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="hover:scale-110 transition-transform pixel-font text-xs writing-vertical"
+          >
             ABOUT
           </a>
-          <a href="#contact" className="hover:scale-110 transition-transform pixel-font text-xs writing-vertical">
+          <a 
+            href="#contact" 
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="hover:scale-110 transition-transform pixel-font text-xs writing-vertical"
+          >
             CONTACT
           </a>
         </div>
@@ -309,13 +461,18 @@ function App() {
             {[
               { label: 'WORK', href: '#work' },
               { label: 'ABOUT', href: '#about' },
-           
               { label: 'CONTACT', href: '#contact' }
             ].map((item, i) => (
               <a
                 key={item.label}
                 href={item.href}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsMenuOpen(false);
+                  setTimeout(() => {
+                    document.getElementById(item.href.replace('#', ''))?.scrollIntoView({ behavior: 'smooth' });
+                  }, 300);
+                }}
                 className="block pixel-font text-4xl sm:text-6xl md:text-8xl hover:text-gray-400 transition-colors cursor-pointer"
                 style={{
                   animation: isMenuOpen ? `slideIn 0.6s ease-out ${i * 0.1}s both` : 'none'
@@ -358,7 +515,7 @@ function App() {
 
         <section id="work" className="min-h-screen flex flex-col lg:flex-row">
           <div className="w-full lg:w-1/2 lg:sticky lg:top-0 lg:h-screen flex items-center justify-center p-8 lg:p-16 relative overflow-hidden bg-gradient-to-br from-gray-900 to-black">
-            <div className="absolute inset-0 transition-opacity duration-700">
+            <div className="absolute inset-0 transition-opacity duration-700 overflow-hidden">
               {projects.map((project) => (
                 <div
                   key={project.id}
@@ -369,7 +526,9 @@ function App() {
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full object-cover"
+                    className={`w-full h-full object-cover transition-transform duration-700 ${
+                      hoveredProject === project.id ? 'scale-110' : 'scale-100'
+                    }`}
                   />
                   <div className="absolute inset-0 bg-black/30" />
                 </div>
@@ -470,12 +629,6 @@ function App() {
                 HELLO@CREASLO.COM
               </a>
               <div className="flex flex-col sm:flex-row gap-4 md:gap-8 pixel-font text-base md:text-xl">
-                <a href="#" className="hover:text-gray-400 transition-colors">
-                  INSTAGRAM →
-                </a>
-                <a href="#" className="hover:text-gray-400 transition-colors">
-                  LINKEDIN →
-                </a>
                 <a href="#" className="hover:text-gray-400 transition-colors">
                   GITHUB →
                 </a>
